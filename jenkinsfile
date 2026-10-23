@@ -2,9 +2,12 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'mybranch',
+                echo 'Downloading code from GitHub'
+
+                git branch: 'main',
                     url: 'https://github.com/kavima101-netizen/myrepo.git'
             }
         }
@@ -12,14 +15,30 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Checking HTML file'
+
                 sh 'test -f welcome.html'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'HTML file is ready for deployment'
+                echo 'Deploying HTML to Apache server'
+
+                sshagent(credentials: ['server1-sshkey']) {
+                    sh '''
+                        scp -o StrictHostKeyChecking=yes \
+                        welcome.html ec2-user@172.31.20.218 :/tmp/welcome.html
+
+                        ssh -o StrictHostKeyChecking=yes \
+                        ec2-user@172.31.20.218 \
+                        'sudo install -m 644 /tmp/welcome.html /var/www/html/welcome.html'
+                    '''
+                }
             }
         }
+
     }
 }
+
+
+
