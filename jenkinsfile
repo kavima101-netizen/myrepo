@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'mybranch',
+                    url: 'https://github.com/kavima101-netizen/myrepo.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Checking HTML file'
+                sh 'test -f welcome.html'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'HTML file is ready for deployment'
+            }
+        }
+    }
+}
