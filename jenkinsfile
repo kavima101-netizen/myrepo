@@ -27,7 +27,7 @@ pipeline {
                 sshagent(credentials: ['server1-sshkey']) {
                     sh '''
                         scp -o StrictHostKeyChecking=yes \
-                        welcome.html ec2-user@172.31.20.218 :/tmp/welcome.html
+                        welcome.html ec2-user@172.31.20.218:/tmp/welcome.html
 
                         ssh -o StrictHostKeyChecking=yes \
                         ec2-user@172.31.20.218 \
