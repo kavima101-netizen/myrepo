@@ -7,7 +7,7 @@ pipeline {
             steps {
                 echo 'Downloading code from GitHub'
 
-                git branch: 'main',
+                git branch: 'mybranch',
                     url: 'https://github.com/kavima101-netizen/myrepo.git'
             }
         }
